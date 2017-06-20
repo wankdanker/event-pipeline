@@ -1,6 +1,6 @@
 {
   "name": "event-pipeline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple event emitter that processes events in order",
   "main": "index.js",
   "scripts": {
