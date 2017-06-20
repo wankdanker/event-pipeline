@@ -56,3 +56,28 @@ test('returns value when sync', function (t) {
 	t.equal(result, 'asdf');
 	t.end();
 });
+
+test('works without a callback passed to emit', function (t) {
+	t.plan(1);
+	var e = new EventPipeline();
+	var error = new Error('failure');
+	var a = { a : 1 };
+
+	e.on('test', function (arg, next) {
+		arg.a += 1;
+
+		return next();
+	});
+
+	e.on('test', function (arg, next) {
+		arg.a += 1;
+
+		return next();
+	});
+
+	e.emit('test', a);
+
+	t.equal(a.a, 3);
+
+	t.end();
+});

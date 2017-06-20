@@ -35,7 +35,7 @@ EventPipeline.prototype.off = function (event, fn) {
 EventPipeline.prototype.emit = function (event, obj, cb) {
   var self = this;
 
-  cb = cb || cbreturn;
+  cb = cb || noop;
 
   if (!self._events[event]) {
     return cb(null, obj);
@@ -43,3 +43,5 @@ EventPipeline.prototype.emit = function (event, obj, cb) {
 
   return self._events[event](obj, cb);
 };
+
+function noop () {}
