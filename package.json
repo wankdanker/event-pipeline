@@ -1,0 +1,25 @@
+{
+  "name": "event-pipeline",
+  "version": "1.0.0",
+  "description": "A simple event emitter that processes events in order",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wankdanker/event-pipeline.git"
+  },
+  "author": "Dan VerWeire",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wankdanker/event-pipeline/issues"
+  },
+  "homepage": "https://github.com/wankdanker/event-pipeline#readme",
+  "dependencies": {
+    "usey": "^1.7.0"
+  },
+  "devDependencies": {
+    "tape": "^4.6.3"
+  }
+}
