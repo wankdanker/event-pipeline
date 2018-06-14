@@ -32,16 +32,31 @@ EventPipeline.prototype.off = function (event, fn) {
   return self;
 };
 
-EventPipeline.prototype.emit = function (event, obj, cb) {
+EventPipeline.prototype.emit = function () {
   var self = this;
+
+  var args = Array.prototype.slice.call(arguments);
+  var event = args.shift();
+  var cb;
+
+  if (typeof args[args.length - 1] === 'function') {
+    cb = args.pop();
+  }
 
   cb = cb || noop;
 
   if (!self._events[event]) {
-    return cb(null, obj);
+    //add a null argument to the beginning of the args list
+    args.unshift(null);
+
+    //apply all the args to the callback with no context
+    return cb.apply(null, args);
   }
 
-  return self._events[event](obj, cb);
+  //put the callback function back at the end of the args list
+  args.push(cb);
+
+  return self._events[event].apply(null, args);
 };
 
 function noop () {}
