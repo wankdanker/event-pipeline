@@ -12,8 +12,12 @@ EventPipeline.prototype.on = function (event, fn) {
   var self = this;
 
   var ev = self._events[event] = self._events[event] || usey();
+  var args = Array.prototype.slice.call(arguments);
 
-  ev.use(fn);
+  //remove the 0th arg from the array
+  args.shift();
+
+  ev.use.apply(ev, args);
 
   return self;
 }

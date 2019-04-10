@@ -110,3 +110,34 @@ test('test multiple arguments to emit()', function (t) {
 		t.end();
 	});
 });
+
+test('test multiple arguments to on()', function (t) {
+	t.plan(2);
+	var e = new EventPipeline();
+	
+	var a = { a : 1 };
+	var b = { b : 1 };
+
+	e.on('test', f1, f2);
+	
+	function f1 (arg1, arg2, next) {
+		arg1.a += 1;
+		arg2.b += 1;
+
+		return next();
+	}
+
+	function f2 (arg1, arg2, next) {
+		arg1.a += 1;
+		arg2.b += 1;
+
+		return next();
+	}
+
+	e.emit('test', a, b, function (err, a, b) {
+		t.equal(a.a, 3);
+		t.equal(b.b, 3);
+	
+		t.end();
+	});
+});
