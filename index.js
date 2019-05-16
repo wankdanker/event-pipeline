@@ -6,6 +6,18 @@ function EventPipeline () {
   var self = this;
 
   self._events = {};
+
+  self.on.unshift = function (event, fn) {
+    var ev = self._events[event] = self._events[event] || usey();
+    var args = Array.prototype.slice.call(arguments);
+
+    //remove the 0th arg from the array
+    args.shift();
+
+    ev.unshift.apply(ev, args);
+
+    return self;
+  }
 }
 
 EventPipeline.prototype.on = function (event, fn) {

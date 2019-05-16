@@ -141,3 +141,35 @@ test('test multiple arguments to on()', function (t) {
 		t.end();
 	});
 });
+
+test('test multiple arguments to .on.unshift()', function (t) {
+	t.plan(2);
+	var e = new EventPipeline();
+	
+	var a = { a : 1 };
+	var b = { b : 1 };
+
+	e.on('test', f1, f1);
+	e.on.unshift('test', f2, f2);
+	
+	function f1 (arg1, arg2, next) {
+		arg1.a *= 2;
+		arg2.b *= 2;
+		
+		return next();
+	}
+
+	function f2 (arg1, arg2, next) {
+		arg1.a *= 3;
+		arg2.b *= 3;
+		
+		return next();
+	}
+
+	e.emit('test', a, b, function (err, a, b) {
+		t.equal(a.a, 36);
+		t.equal(b.b, 36);
+	
+		t.end();
+	});
+});

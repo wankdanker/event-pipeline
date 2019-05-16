@@ -41,6 +41,9 @@ api
 * on(eventName, listener) - register a listener
   * eventName - the event name to register
   * listener - the function to call when eventName is emitted
+* on.unshift(eventName, listener) - insert a listener to the beginning of the list of listeners
+  * eventName - the event name to register
+  * listener - the function to call when eventName is emitted
 * off(eventName, listener) - unregister a listener
   * eventName - the event name that was previously registered
   * listener - the function that was previously registered
