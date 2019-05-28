@@ -173,3 +173,26 @@ test('test multiple arguments to .on.unshift()', function (t) {
 		t.end();
 	});
 });
+
+test('test awaiting on emit', async function (t) {
+	var e = new EventPipeline();
+	
+	var a = { a : 1 };
+
+	e.on('test', function (a, next) {
+		a.a += 1;
+
+		return next();
+	});
+
+	e.on('test', function (a, next) {
+		a.a += 1;
+
+		next();
+	});
+	
+	var [b] = await e.emit('test', a);
+	
+	t.equal(b.a, 3, 'b.a should be three');
+	t.end();
+});

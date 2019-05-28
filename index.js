@@ -69,10 +69,31 @@ EventPipeline.prototype.emit = function () {
     return cb.apply(null, args);
   }
 
-  //put the callback function back at the end of the args list
-  args.push(cb);
+  if (cb != noop) {
+    //put the callback function back at the end of the args list
+    args.push(cb);
 
-  return self._events[event].apply(null, args);
+    return self._events[event].apply(null, args);
+  }
+
+  //this is promise based
+  return new Promise(function (resolve, reject) {
+    args.push(function () {
+      var args = Array.prototype.slice.call(arguments);
+      var err = args.shift();
+
+      if (err) {
+        return reject(err);
+      }
+
+      //this passes all of the args as an array
+      //you might want to use array destructuring on the
+      //receiving side
+      resolve.call(resolve, args);
+    });
+
+    self._events[event].apply(null, args);
+  });
 };
 
 function noop () {}
