@@ -196,3 +196,24 @@ test('test awaiting on emit', async function (t) {
 	t.equal(b.a, 3, 'b.a should be three');
 	t.end();
 });
+
+test('test awaiting on emit and async handlers', async function (t) {
+	var e = new EventPipeline();
+	
+	var a = { a : 1 };
+
+	e.on('test', async function (a) {
+		a.a += 1;
+	});
+
+	e.on('test', function (a) {
+		a.a += 1;
+
+		return Promise.resolve(a)
+	});
+	
+	var [b] = await e.emit('test', a);
+	
+	t.equal(b.a, 3, 'b.a should be three');
+	t.end();
+});
